@@ -1,0 +1,13 @@
+name: context demo 
+
+on: 
+  workflow_dispatch: 
+  push: 
+
+jobs: 
+  context-demo: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Display the repo
+        run: echo "${{ github.repository }}"
