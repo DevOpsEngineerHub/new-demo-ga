@@ -1,0 +1,21 @@
+name: Context details
+
+on: 
+  push:
+  workflow_dispatch: 
+
+jobs: 
+  runner-demo: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Display Runner 
+        run: |
+          echo "${{ runner.os }}"
+
+          echo "${{ runner.arch }}"
+
+          echo "${{ runner.name }}"
+          echo "${{ github.actor }}"
+          echo "${{ github.event_name }}"
+          echo "${{ github.workflow }}"
