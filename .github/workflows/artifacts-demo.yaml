@@ -1,0 +1,26 @@
+name: Secret Demo chatGPT 
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  artifact-demo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create the build file
+        run: |
+          mkdir build
+          echo "hello from github Actions" > build/app.txt
+          
+      - name: Show the build File
+        run: |
+          cat build/app.txt
+          
+      - name: Upload the Artifacts
+        uses: actions/upload-artifacts@v4
+        with: 
+          name: application 
+          path: build/
+      
