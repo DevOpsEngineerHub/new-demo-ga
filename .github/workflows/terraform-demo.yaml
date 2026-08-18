@@ -1,4 +1,4 @@
-name: Terraform EC2 Deployment
+name: AWS Terraform Ansible
 
 on:
   workflow_dispatch:
@@ -53,3 +53,24 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
+
+
+  # ==========================================
+  # JOB 3 - ANSIBLE
+  # ==========================================
+  ansible:
+    needs: terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Ansible
+        run: |
+          sudo yum update
+          sudo yum install -y ansible
+
+      - name: Check Ansible version
+        run: |
+          ansible --version
