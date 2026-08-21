@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "nginx_server" {
-  ami           = "ami-0912f71e06545ad88"
+  ami           = "ami-0ac7b260cf76d8865"
   instance_type = "t3.micro"
 
   tags = {
