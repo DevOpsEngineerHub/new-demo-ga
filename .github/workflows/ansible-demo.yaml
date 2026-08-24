@@ -114,3 +114,9 @@ jobs:
       - name: Test Ansible connection
         run: |
           ansible web -i inventory.ini -m ping
+
+      - name: Run Ansible playbook
+        run: |
+          ansible-playbook -i inventory.ini playbook.yaml
+
+      
