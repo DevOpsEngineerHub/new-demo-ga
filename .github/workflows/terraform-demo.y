@@ -31,6 +31,10 @@ jobs:
     needs: aws-connection
     runs-on: ubuntu-latest
 
+    # Pass EC2 IP to the next job
+    outputs:
+      ec2_ip: ${{ steps.get_ip.outputs.ec2_ip }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -54,6 +58,12 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve
 
+      # Get EC2 public IP
+      - name: Get EC2 IP
+        id: get_ip
+        run: |
+          echo "ec2_ip=$(terraform output -raw ec2_public_ip)" >> "$GITHUB_OUTPUT"
+
 
   # ==========================================
   # JOB 3 - ANSIBLE
@@ -66,11 +76,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Install Ansible
       - name: Install Ansible
         run: |
           sudo apt-get update
           sudo apt-get install -y ansible
 
+      # Check Ansible version
       - name: Check Ansible version
         run: |
           ansible --version
+
+      # Create SSH private key from GitHub Secret
+      - name: Create SSH private key
+        run: |
+          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > ec2-key.pem
+          chmod 400 ec2-key.pem
